@@ -1,8 +1,8 @@
 # Facial-Skin-Problem-Detection
 
-## A program that can detect common skin problems such as acne, white heads, and etc. and recommending home remedies for those skin problems.
+## A program that can detect skin disease.
 ---
-# Setting up Python, OpenCV, TensorFlow Lite, Pandas, and NumPy
+# Setting up the environment
 
 Follow these steps to set up a development environment with Python and the required libraries for your machine learning or computer vision project.
 
@@ -16,7 +16,16 @@ Follow these steps to set up a development environment with Python and the requi
 
    ```bash
    python --version
+---
+## Create a virtual environment
 
+- ```
+   python -m venv .
+   
+## Installing Dependencies 
+- ```bash
+   pip install -r requirements.txt
+   
 ## Running the virtual environment
 > go to cd C:\path\to\your\project\directory\myenv and open it in terminal
 1. to activate the virtual environment 
