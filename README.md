@@ -20,7 +20,7 @@ Follow these steps to set up a development environment with Python and the requi
 ## Create a virtual environment
 
 - ```
-   python -m venv Facial-Skin-Problem-Detection
+   python -m venv .
    
 ## Installing Dependencies 
 - ```bash
