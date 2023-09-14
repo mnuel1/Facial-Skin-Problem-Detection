@@ -16,8 +16,14 @@ Follow these steps to set up a development environment with Python and the requi
 
    ```bash
    python --version
+---
+## Create a virtual environment
+
+> ```
+   python -m venv pyenv
+   
 ## Installing Dependencies 
-1. ```bash
+> ```bash
    pip install -r requirements.txt
    
 ## Running the virtual environment
