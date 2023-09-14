@@ -1,8 +1,8 @@
 # Facial-Skin-Problem-Detection
 
-## A program that can detect common skin problems such as acne, white heads, and etc. and recommending home remedies for those skin problems.
+## A program that can detect skin disease.
 ---
-# Setting up Python, OpenCV, TensorFlow Lite, Pandas, and NumPy
+# Setting up the environment
 
 Follow these steps to set up a development environment with Python and the required libraries for your machine learning or computer vision project.
 
