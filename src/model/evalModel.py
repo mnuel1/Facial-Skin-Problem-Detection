@@ -19,7 +19,7 @@ class SkinDiseaseEvaluator:
         # Configuration
         self.BATCH_SIZE = 16
         
-        self.TEST_PATH = 'datasets/archive_3/Original Images/Original Images/FOLDS/fold5/Test'
+        self.TEST_PATH = 'datasets/archive_3/Original Images/Original Images/FOLDS/fold1/Test'
         
 
     def load_model_and_evaluate(self):

@@ -40,9 +40,9 @@ class SkinDiseaseClassifier:
         top_model = Flatten(name="flatten")(top_model)
         top_model = Dense(4096, activation='relu')(top_model)
         top_model = Dense(1072, activation='relu')(top_model)
-        top_model = Dropout(0.3)(top_model)
+        top_model = Dropout(0.5)(top_model)
         top_model = Dense(256, activation='relu')(top_model)
-        top_model = Dropout(0.25)(top_model)
+        top_model = Dropout(0.45)(top_model)
         output_layer = Dense(self.n_classes, activation='softmax')(top_model)
 
         # Combine base and top layers into the final model
@@ -51,6 +51,8 @@ class SkinDiseaseClassifier:
         # Compile the model
         model.compile(optimizer=self.opt, loss='categorical_crossentropy', metrics=['accuracy'])
         
+        model.summary()
+
         return model
 
     def train_model(self):
@@ -77,7 +79,7 @@ class SkinDiseaseClassifier:
         # Train the model
         history = model.fit(
             train_data,
-            epochs=100,
+            epochs=20,
             steps_per_epoch=len(train_data),
             class_weight=class_weights,
             validation_data=val_data,
