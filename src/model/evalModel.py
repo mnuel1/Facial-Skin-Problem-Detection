@@ -19,7 +19,7 @@ class SkinDiseaseEvaluator:
         # Configuration
         self.BATCH_SIZE = 16
         
-        self.TEST_PATH = 'datasets/archive_3/Original Images/Original Images/FOLDS/fold1/Test'
+        self.TEST_PATH = 'datasets/archive_3/Original Images/Original Images/FOLDS/fold5/Test'
         
 
     def load_model_and_evaluate(self):
@@ -68,8 +68,8 @@ class SkinDiseaseEvaluator:
         print(classification_report(true_classes, model_pred_classes))
 
         # Generate a confusion matrix and plot it
-        x = confusion_matrix(true_classes, model_pred_classes)
-        plot_confusion_matrix(x)
+        # x = confusion_matrix(true_classes, model_pred_classes)
+        # plot_confusion_matrix(x)
 
         # Plot heatmap
         class_names = test_data.class_indices.keys()
