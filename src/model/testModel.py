@@ -11,6 +11,7 @@ import keras
 np.random.seed(42)
 random.seed(42)
 tf.random.set_seed(42)
+
 # CONFIG
 BATCH_SIZE = 16
 

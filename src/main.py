@@ -1,143 +1,85 @@
 import os
-
-#List the names of the entries in the dataset
-print(os.listdir('archive_4'))
-
-#Create base directory
-base_dir = 'base_dir'
-os.mkdir(base_dir)
-
-#Create training directory inside of the base directory
-training_dir = os.path.join(base_dir,'training_dir')
-os.mkdir(training_dir)
-
-#Create test directory inside of the base directory
-val_dir = os.path.join(base_dir,'val_dir')
-os.mkdir(val_dir)
-
-akiec = os.path.join(training_dir,'akiec')
-os.mkdir(akiec)
-
-bcc = os.path.join(training_dir,'bcc')
-os.mkdir(bcc)
-
-bkl = os.path.join(training_dir,'bkl')
-os.mkdir(bkl)
-
-df = os.path.join(training_dir,'df')
-os.mkdir(df)
-
-nv = os.path.join(training_dir,'nv')
-os.mkdir(nv)
-
-mel = os.path.join(training_dir,'mel')
-os.mkdir(mel)
-
-vasc = os.path.join(training_dir,'vasc')
-os.mkdir(vasc)
-
-
-#Create subdirectories for each diagnostic category inside of the validation directory
-
-akiec = os.path.join(val_dir,'akiec')
-os.mkdir(akiec)
-
-bcc = os.path.join(val_dir,'bcc')
-os.mkdir(bcc)
-
-bkl = os.path.join(val_dir,'bkl')
-os.mkdir(bkl)
-
-df = os.path.join(val_dir,'df')
-os.mkdir(df)
-
-nv = os.path.join(val_dir,'nv')
-os.mkdir(nv)
-
-mel = os.path.join(val_dir,'mel')
-os.mkdir(mel)
-
-vasc = os.path.join(val_dir,'vasc')
-os.mkdir(vasc)
-
 import pandas as pd
-
-#Read a csv file into a DataFrame
-data = pd.read_csv('archive_4/HAM10000_metadata.csv')
-
-#Output the first 5 rows
-data.head()
-
-import sklearn
 from sklearn.model_selection import train_test_split
 
-#Divide the dataset into training and test sets
-_, test_set = train_test_split(data, test_size=0.2, shuffle=True, random_state=42, stratify=data['dx'])
-test_set.shape
+import matplotlib.pyplot as plt
+# Create folders for data
+datasets = 'Datasets'
+os.makedirs(datasets, exist_ok=True)
 
-def train_or_test(x):
-    test = list(test_set['image_id'])
-    if str(x) in test:
-        return 'test'
-    else:
-        return 'train'
+# Define class names
+class_names = ['akiec', 'bcc', 'bkl', 'df', 'nv', 'mel', 'vasc']
 
-data['train_or_test'] = data['image_id']
-data['train_or_test'] = data['train_or_test'].apply(train_or_test)
-training_set = data[data['train_or_test'] == 'train']
+# Create training and validation folders with subfolders for each class
+for dataset_type in ['train', 'test']:
+    dataset_dir = os.path.join(datasets, dataset_type)
+    os.makedirs(dataset_dir, exist_ok=True)
+    
+    for class_name in class_names:
+        class_dir = os.path.join(dataset_dir, class_name)
+        os.makedirs(class_dir, exist_ok=True)
 
-training_set['dx'].value_counts()
-test_set['dx'].value_counts()
+# Read the CSV metadata
+metadata = pd.read_csv('archive_4/HAM10000_metadata.csv')
 
-import shutil
 
-#Transfer images in the dataset to the related directory created before
+# Split the Dataset to test and valid 
+train_set, test_set = train_test_split(metadata, test_size=0.2, shuffle=True, random_state=42, stratify=metadata['dx'])
 
-data.set_index('image_id',inplace=True)
+metadata.set_index('image_id',inplace=True)
+
 
 images_1 = os.listdir('archive_4/HAM10000_images_part_1')
 images_2 = os.listdir('archive_4/HAM10000_images_part_2')
 
-training_list = training_set['image_id']
+training_list = train_set['image_id']
 val_list = test_set['image_id']
+# Count the number of images in each class for training and validation sets
+train_class_counts = train_set['dx'].value_counts()
+val_class_counts = test_set['dx'].value_counts()
 
-for image in training_list:
-    filename = image + '.jpg'
-    label = data.loc[image,'dx']
-    if filename in images_1:
-        source = os.path.join('archive_4/HAM10000_images_part_1',filename)
-        direction = os.path.join(training_dir,label,filename)
-        shutil.copyfile(source,direction)
-    if filename in images_2:
-        source = os.path.join('archive_4/HAM10000_images_part_2',filename)
-        direction = os.path.join(training_dir,label,filename)
-        shutil.copyfile(source,direction)
+# Get the unique class labels
+class_labels = train_set['dx'].unique()
+
+# Create a bar chart to visualize the dataset split
+plt.figure(figsize=(12, 6))
+plt.bar(class_labels, train_class_counts, label='Training Set', alpha=0.7)
+plt.bar(class_labels, val_class_counts, label='Validation Set', alpha=0.7, hatch='//')
+plt.xlabel('Class Labels')
+plt.ylabel('Number of Images')
+plt.title('Dataset Split: Training vs. Validation')
+plt.legend()
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+# Save the visualization as an image file (optional)
+plt.savefig('dataset_split_visualization.png')
+
+# Show the bar chart
+plt.show()
+
+# Copy Files
+# for image in training_list:
+#     filename = image + '.jpg'
+#     label = metadata.loc[image,'dx']    
+#     if filename in images_1:
+#         source = os.path.join('archive_4/HAM10000_images_part_1',filename)
+#         direction = os.path.join('Datasets/train',label,filename)        
+#         shutil.copyfile(source,direction)
+#     if filename in images_2:
+#         source = os.path.join('archive_4/HAM10000_images_part_2',filename)
+#         direction = os.path.join('Datasets/train',label,filename)
+#         shutil.copyfile(source,direction)
         
-for image in val_list:
-    filename = image + '.jpg'
-    label = data.loc[image,'dx']
-    if filename in images_1:
-        source = os.path.join('archive_4/HAM10000_images_part_1',filename)
-        direction = os.path.join(val_dir,label,filename)
-        shutil.copyfile(source,direction)
-    if filename in images_2:
-        source = os.path.join('archive_4/HAM10000_images_part_2',filename)
-        direction = os.path.join(val_dir,label,filename)
-        shutil.copyfile(source,direction)
-#Check
+# for image in val_list:
+#     filename = image + '.jpg'
+#     label = metadata.loc[image,'dx']
+#     if filename in images_1:
+#         source = os.path.join('archive_4/HAM10000_images_part_1',filename)
+#         direction = os.path.join('Datasets/test',label,filename)
+#         shutil.copyfile(source,direction)
+#     if filename in images_2:
+#         source = os.path.join('archive_4/HAM10000_images_part_2',filename)
+#         direction = os.path.join('Datasets/test',label,filename)
+#         shutil.copyfile(source,direction)
 
-print(len(os.listdir('base_dir/training_dir/nv')))
-print(len(os.listdir('base_dir/training_dir/mel')))
-print(len(os.listdir('base_dir/training_dir/bkl')))
-print(len(os.listdir('base_dir/training_dir/bcc')))
-print(len(os.listdir('base_dir/training_dir/akiec')))
-print(len(os.listdir('base_dir/training_dir/vasc')))
-print(len(os.listdir('base_dir/training_dir/df')))
-print('\n')
-print(len(os.listdir('base_dir/val_dir/nv')))
-print(len(os.listdir('base_dir/val_dir/mel')))
-print(len(os.listdir('base_dir/val_dir/bkl')))
-print(len(os.listdir('base_dir/val_dir/bcc')))
-print(len(os.listdir('base_dir/val_dir/akiec')))
-print(len(os.listdir('base_dir/val_dir/vasc')))
-print(len(os.listdir('base_dir/val_dir/df')))
