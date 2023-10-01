@@ -68,6 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
                 style: TextStyle(
                   fontSize: 36.0,
                   fontWeight: FontWeight.bold,
+                  color: Colors.grey, // Set text color to grey
                 ),
               ),
             ],
@@ -78,15 +79,73 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = [
+    BlankPage(title: 'Home'),
+    BlankPage(title: 'Scan'),
+    BlankPage(title: 'Remedies'),
+    BlankPage(title: 'Profile'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Descry'),
+        title: Center(child: Image.asset('assets/image 9.png', height: 30, width: 30)), // Logo
+      ),
+      body: _pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.scanner),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.healing),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: '',
+          ),
+        ],
+        currentIndex: _currentIndex,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.black,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
+    );
+  }
+}
+
+class BlankPage extends StatelessWidget {
+  final String title;
+
+  const BlankPage({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
       ),
       body: Center(
-        child: Text('Welcome to Descry!'),
+        child: Text('$title Page'),
       ),
     );
   }
