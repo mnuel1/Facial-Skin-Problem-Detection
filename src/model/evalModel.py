@@ -19,8 +19,8 @@ class SkinDiseaseEvaluator:
         # Configuration
         self.BATCH_SIZE = 16
         
-        self.TEST_PATH = 'datasets/archive_3/Original Images/Original Images/FOLDS/fold5/Test'
-        
+        # self.TEST_PATH = 'datasets/archive_3/Original Images/Original Images/FOLDS/fold5/Test'
+        self.TEST_PATH = 'test/'
 
     def load_model_and_evaluate(self):
         # Load test data
@@ -41,7 +41,7 @@ class SkinDiseaseEvaluator:
         tsdata = ImageDataGenerator()
         return tsdata.flow_from_directory(
             directory=self.TEST_PATH,
-            target_size=(224, 224),
+            target_size=(28, 28),
             batch_size=self.BATCH_SIZE,
             shuffle=False,
             seed=42

@@ -7,4 +7,5 @@ share/
 base_dir/
 archive_4
 reqs/
-sets/
+test/
+test.jpg
