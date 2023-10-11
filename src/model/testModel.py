@@ -11,7 +11,10 @@ import os
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score, classification_report, confusion_matrix
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import cv2
-import numpy as np
+import pandas as pd
+
+
+
 
 np.random.seed(42)
 random.seed(42)
@@ -46,7 +49,7 @@ subfolders = ['melanocytic nevi', 'melanoma', 'benign keratosis-like lesions', '
 true_labels = []
 predicted_labels = []
 
-folder_path = 'test/mel/'
+folder_path = 'Datasets/test/akiec'
 
 total_predictions = 0
 correct_predictions = 0
@@ -87,7 +90,7 @@ for filename in os.listdir(folder_path):
         confidence_score = predictions[0][predicted_class_index]
 
         # Check if the prediction is correct
-        is_correct = predicted_class_index == 6
+        is_correct = predicted_class_index == 3
         
         # Update counts
         total_predictions += 1

@@ -105,15 +105,15 @@ class SkinDiseaseClassifier:
         print('Shape of Data :', Data.shape)  
 
         Label = np.array(Label)
-
+# 2 :('bkl', 'benign keratosis-like lesions')
+# 3: ('df', 'dermatofibroma')}
         """ Classes of Skin Cancer """
         classes = { 4: ('nv', ' melanocytic nevi'),
-                    6: ('mel', 'melanoma'),
-                    2 :('bkl', 'benign keratosis-like lesions'), 
+                    6: ('mel', 'melanoma'),                    
                     1:('bcc' , ' basal cell carcinoma'),
                     5: ('vasc', ' pyogenic granulomas and hemorrhage'),
                     0: ('akiec', 'Actinic keratoses and intraepithelial carcinomae'),
-                    3: ('df', 'dermatofibroma')}
+                }
         
         X_train , X_test , y_train , y_test = train_test_split(Data , Label , test_size = 0.25 , random_state = 42)
         
@@ -132,7 +132,7 @@ class SkinDiseaseClassifier:
             Implement the learning rate reduction
                 - to stabilize and avoid overfitting
         """
-        checkpoint = ModelCheckpoint("./my_model.h5", monitor='val_accuracy', verbose=1, save_best_only=True, save_weights_only=False, mode='auto')
+        checkpoint = ModelCheckpoint("./my_model1.h5", monitor='val_accuracy', verbose=1, save_best_only=True, save_weights_only=False, mode='auto')
         early_stop = EarlyStopping(monitor='val_accuracy', min_delta=0, patience=20, verbose=1, mode='auto', restore_best_weights=True)
         learning_rate_reduction = ReduceLROnPlateau(monitor='val_accuracy'
                                             , patience = 2

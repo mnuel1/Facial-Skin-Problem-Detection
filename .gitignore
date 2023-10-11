@@ -1,7 +1,7 @@
 
 lib/
 Datasets/
-my_model.h5
+ai_model/
 Scripts/
 share/
 base_dir/
@@ -9,3 +9,4 @@ archive_4
 reqs/
 test/
 test.jpg
+etc/
